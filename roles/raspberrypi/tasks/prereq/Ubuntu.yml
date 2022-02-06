@@ -6,3 +6,31 @@
     regexp: '^((?!.*\bcgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory\b).*)$'
     line: '\1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory'
   notify: reboot
+- name: Stop and Disable wpa_supplicant service
+  systemd:
+    name: wpa_supplicant
+    state: stopped
+    enabled: no
+- name: Stop and Disable atd service
+  systemd:
+    name: atd
+    state: stopped
+    enabled: no
+- name: Stop and Disable cron service
+  systemd:
+    name: cron
+    state: stopped
+    enabled: no
+- name: Stop and Disable unattended-upgrades service
+  systemd:
+    name: unattended-upgrades
+    state: stopped
+    enabled: no
+- name: install libraspberrypi-bin
+  apt:
+    name:
+    - libraspberrypi-bin
+    state: latest
+- name: Upgrade all packages to the latest version
+  apt: update_cache=yes upgrade=full
+  notify: reboot
